@@ -27,6 +27,10 @@ public class RestService {
         this.responseParser = responseParser;
     }
 
+    public String getTeamCityUri() {
+        return teamCityUri;
+    }
+
     public <T> T sendGetRequest(String resourcePath, Class<T> responseClass) {
         String uri = createUri(resourcePath);
         HttpGet httpGet = new HttpGet(uri);

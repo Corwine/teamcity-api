@@ -26,6 +26,10 @@ public class Context {
         this.restService = restService;
     }
 
+    public String getTeamCityUri() {
+        return restService.getTeamCityUri();
+    }
+
     public Project getRootProject() {
         return buildTypeTreeCache.getProjectsById().get(ROOT_PROJECT_ID);
     }
