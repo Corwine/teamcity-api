@@ -18,16 +18,16 @@ public class Context {
     private final RestService restService;
     private BuildTypeTreeCache buildTypeTreeCache;
 
-    public Context(String teamCityUri) {
-        this(new RestService(teamCityUri));
+    public Context(String teamCityUrl) {
+        this(new RestService(teamCityUrl));
     }
 
     Context(RestService restService) {
         this.restService = restService;
     }
 
-    public String getTeamCityUri() {
-        return restService.getTeamCityUri();
+    public String getTeamCityUrl() {
+        return restService.getTeamCityUrl();
     }
 
     public Project getRootProject() {

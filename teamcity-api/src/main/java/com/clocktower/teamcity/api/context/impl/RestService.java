@@ -12,28 +12,28 @@ import org.apache.http.impl.client.HttpClients;
 import java.io.IOException;
 
 public class RestService {
-    private final String teamCityUri;
+    private final String teamCityUrl;
 
     private final HttpClient httpClient;
     private final ResponseParser responseParser;
 
-    public RestService(String teamCityUri) {
-        this(teamCityUri, HttpClients.createDefault(), new ResponseParser());
+    public RestService(String teamCityUrl) {
+        this(teamCityUrl, HttpClients.createDefault(), new ResponseParser());
     }
 
-    RestService(String teamCityUri, HttpClient httpClient, ResponseParser responseParser) {
-        this.teamCityUri = teamCityUri;
+    RestService(String teamCityUrl, HttpClient httpClient, ResponseParser responseParser) {
+        this.teamCityUrl = teamCityUrl;
         this.httpClient = httpClient;
         this.responseParser = responseParser;
     }
 
-    public String getTeamCityUri() {
-        return teamCityUri;
+    public String getTeamCityUrl() {
+        return teamCityUrl;
     }
 
     public <T> T sendGetRequest(String resourcePath, Class<T> responseClass) {
-        String uri = createUri(resourcePath);
-        HttpGet httpGet = new HttpGet(uri);
+        String url = createUrl(resourcePath);
+        HttpGet httpGet = new HttpGet(url);
         httpGet.setHeader(HttpHeaders.ACCEPT, ContentType.APPLICATION_JSON.toString());
 
         HttpResponse response;
@@ -50,7 +50,7 @@ public class RestService {
         return responseParser.parseJsonResponse(response, responseClass);
     }
 
-    private String createUri(String resourceUri) {
-        return teamCityUri + "/guestAuth" + "/app/rest" + resourceUri;
+    private String createUrl(String resourcePath) {
+        return teamCityUrl + "/guestAuth" + "/app/rest" + resourcePath;
     }
 }
