@@ -2,6 +2,7 @@ package com.clocktower.teamcity.api.context;
 
 import com.clocktower.teamcity.api.context.impl.BuildTypeTreeCache;
 import com.clocktower.teamcity.api.context.impl.RestService;
+import com.clocktower.teamcity.api.context.impl.authorization.AuthorizationType;
 import com.clocktower.teamcity.api.context.impl.response.BuildTypeDto;
 import com.clocktower.teamcity.api.context.impl.response.GetBuildTypesResponseDto;
 import com.clocktower.teamcity.api.context.impl.response.GetProjectsResponseDto;
@@ -18,8 +19,8 @@ public class Context {
     private final RestService restService;
     private BuildTypeTreeCache buildTypeTreeCache;
 
-    public Context(String teamCityUrl) {
-        this(new RestService(teamCityUrl));
+    public Context(String teamCityUrl, AuthorizationType authorizationType) {
+        this(new RestService(teamCityUrl, authorizationType));
     }
 
     Context(RestService restService) {

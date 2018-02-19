@@ -1,17 +1,14 @@
 package com.clocktower.teamcity.api.context.impl;
 
+import com.clocktower.teamcity.api.context.impl.authorization.AuthorizationType;
+import com.clocktower.teamcity.api.context.impl.authorization.GuestAuthorizationType;
 import com.clocktower.teamcity.api.exceptions.TeamCityException;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.HttpHostConnectException;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.MockitoJUnit;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.io.IOException;
@@ -34,6 +31,8 @@ public class RestServiceTest {
     @Mock
     private ResponseParser responseParser;
 
+    private AuthorizationType authorizationType = new GuestAuthorizationType();
+
     @Test
     public void testGetRequest() throws IOException {
         when(statusLine.getStatusCode()).thenReturn(HttpStatus.SC_OK);
@@ -41,7 +40,7 @@ public class RestServiceTest {
         when(httpClient.execute(any(HttpUriRequest.class))).thenReturn(httpResponse);
         when(responseParser.parseJsonResponse(httpResponse, String.class)).thenReturn("Some string");
 
-        RestService restService = new RestService("https://www.teamcity.com", httpClient, responseParser);
+        RestService restService = new RestService("https://www.teamcity.com", authorizationType, httpClient, responseParser);
         assertEquals("Some string", restService.sendGetRequest("/someResource", String.class));
     }
 
@@ -52,7 +51,7 @@ public class RestServiceTest {
         when(httpClient.execute(any(HttpUriRequest.class))).thenThrow(ConnectException.class);
         when(responseParser.parseJsonResponse(httpResponse, String.class)).thenReturn("Some string");
 
-        RestService restService = new RestService("https://www.teamcity.com", httpClient, responseParser);
+        RestService restService = new RestService("https://www.teamcity.com", authorizationType, httpClient, responseParser);
         restService.sendGetRequest("/someResource", String.class);
     }
 
@@ -63,7 +62,7 @@ public class RestServiceTest {
         when(httpClient.execute(any(HttpUriRequest.class))).thenReturn(httpResponse);
         when(responseParser.parseJsonResponse(httpResponse, String.class)).thenReturn("Some string");
 
-        RestService restService = new RestService("https://www.teamcity.com", httpClient, responseParser);
+        RestService restService = new RestService("https://www.teamcity.com", authorizationType, httpClient, responseParser);
         restService.sendGetRequest("/someResource", String.class);
     }
 }
